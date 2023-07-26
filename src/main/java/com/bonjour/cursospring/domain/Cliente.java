@@ -9,6 +9,7 @@ import java.util.Set;
 
 import com.bonjour.cursospring.domain.enums.TipoCliente;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
