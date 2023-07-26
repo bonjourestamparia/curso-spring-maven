@@ -19,6 +19,8 @@ import com.bonjour.cursospring.domain.Categoria;
 import com.bonjour.cursospring.dto.CategoriaDTO;
 import com.bonjour.cursospring.services.CategoriaService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping(value="/categorias")
 public class CategoriaResource {
@@ -34,7 +36,8 @@ public class CategoriaResource {
 	}
 	
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<Void> insert(@RequestBody Categoria obj){
+	public ResponseEntity<Void> insert(@Valid @RequestBody CategoriaDTO objDTO){
+		Categoria obj = objDTO.toCategoria();
 		obj = service.insert(obj);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
 		
@@ -42,7 +45,8 @@ public class CategoriaResource {
 	}
 	
 	@RequestMapping(method = RequestMethod.PUT, value = "/{id}")	
-	public ResponseEntity<Void> update(@RequestBody Categoria obj, @PathVariable Integer id){
+	public ResponseEntity<Void> update(@Valid @RequestBody CategoriaDTO objDTO, @PathVariable Integer id){
+		Categoria obj = objDTO.toCategoria();
 		obj.setId(id);
 		obj = service.update(obj);
 		
