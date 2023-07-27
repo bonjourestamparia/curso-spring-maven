@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.bonjour.cursospring.domain.Cliente;
 import com.bonjour.cursospring.repositories.ClienteRepository;
+import com.bonjour.cursospring.repositories.EnderecoRepository;
 import com.bonjour.cursospring.services.exceptions.DataIntegrityException;
 import com.bonjour.cursospring.services.exceptions.ObjectNotFoundException;
 
@@ -21,6 +22,9 @@ public class ClienteService {
 	@Autowired
 	private ClienteRepository repo;
 	
+	@Autowired
+	private EnderecoRepository enderecoRepo;
+	
 	public Cliente buscar(Integer id) {
 		Optional<Cliente> ret = repo.findById(id);
 		return ret.orElseThrow(() -> new ObjectNotFoundException("Cliente não encontrado: " + id));
@@ -29,7 +33,10 @@ public class ClienteService {
 	
 	public Cliente insert(Cliente obj) {
 		obj.setId(null);
-		return repo.save(obj);
+		obj = repo.save(obj);
+		enderecoRepo.saveAll(obj.getEnderecos());
+		
+		return obj;
 	}
 	
 	public Cliente update(Cliente obj) {
