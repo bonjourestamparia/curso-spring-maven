@@ -32,8 +32,6 @@ import com.bonjour.cursospring.repositories.ProdutoRepository;
 
 @Service
 public class DBService {
-	
-	
 	@Autowired
 	private CategoriaRepository repo;
 
