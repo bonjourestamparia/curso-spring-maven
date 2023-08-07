@@ -1,8 +1,10 @@
 package com.bonjour.cursospring.domain;
 
 import java.io.Serializable;
+import java.text.NumberFormat;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.Set;
 
@@ -130,4 +132,24 @@ public class Pedido implements Serializable {
 		return Objects.equals(id, other.id);
 	}
 
+	public String toString() {
+		NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
+		StringBuilder builder = new StringBuilder();
+		builder.append("Pedido número: ")
+		.append(getId())
+		.append(", Instante: ")
+		.append(getInstante())
+		.append(", Cliente: ")
+		.append(getCliente().getNome())
+		.append(", SItuação do pagamento: ")
+		.append(getPagamento().getEstado().getDescricao())
+		.append("\nDetalhes:\n");
+		for(ItemPedido item : getItens()) {
+			builder.append(item.toString());
+		}
+		builder.append("\nValor total: ");
+		builder.append(nf.format(getValorTotal()));
+		
+		return builder.toString();
+	}
 }
